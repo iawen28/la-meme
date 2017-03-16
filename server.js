@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const router = require('./routes');
 
@@ -15,6 +16,7 @@ const port = 3000;
 
 app.use(morgan('dev'));
 app.use(helmet());
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, './client')));

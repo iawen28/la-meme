@@ -1,6 +1,7 @@
 // const models = require('../models/index');
 
 const Memes = require('../db/db').Meme;
+
 // const User = require('../db/db').User;
 // const Room = require('../db/db').Room;
 

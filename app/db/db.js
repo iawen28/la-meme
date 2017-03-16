@@ -1,10 +1,6 @@
 const Sequelize = require('sequelize');
-// const User = require('../models/User');
-// const Meme = require('../models/Meme');
-// const Room = require('../models/Room');
 
 const db = new Sequelize('postgres://avehvksm:BsxxRvnB0sMhTN48xMclrogYVhcmLlxY@stampy.db.elephantsql.com:5432/avehvksm');
-
 
 const Meme = db.define('Memes', {
   href: { type: Sequelize.STRING }
@@ -37,4 +33,6 @@ module.exports = {
   User: User,
   Room: Room
 };
+
+
 
