@@ -11,7 +11,6 @@ function getMemePhoto(room, io) {
   axios.get('http://localhost:3000/api/memes')
   .then((results) => {
     const photoUrl = results.data;
-    console.log('URL**', photoUrl);
     io.in(room).emit('photoUrl', photoUrl);
   })
   .catch((error) => {
@@ -200,6 +199,9 @@ module.exports = {
         ioRef.to(room).emit('count-down', { time, countingDown: true });
         time -= 1;
         // time elapsed lets do something
+        if (time === 11) {
+          getMemePhoto(room, ioRef);
+        }
         if (time === -1) {
           if (round === 0) {
             ioRef.to(room).emit('round-over', round);
@@ -209,15 +211,13 @@ module.exports = {
               round += 1;
               // start round 2
               ioRef.to(room).emit('intermission-over');
-              getMemePhoto(room, ioRef);
               time = 10;
               console.log('round 1 intermission done, round 2 start');
               return;
-            } else {
-              time = 15;
-              intermission += 1;
-              console.log('round 1, 10 seconds over, 15 sec begin');
             }
+            time = 15;
+            intermission += 1;
+            console.log('round 1, 10 seconds over, 15 sec begin');
           }
           if (round === 1) {
             ioRef.to(room).emit('round-over', round);
@@ -242,6 +242,7 @@ module.exports = {
               round += 1;
               ioRef.to(room).emit('intermission-over');
               ioRef.to(room).emit('game-over');
+              ioRef.in(room).emit('photoUrl', 'http://www.powerpointhintergrund.com/uploads/game-over-png-16.png');
               if (round === 3) {
                 clearInterval(countDown);
                 roomData.active = false;

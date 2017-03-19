@@ -17,7 +17,8 @@ class Game extends Component {
       timer: 0,
       round: 0,
       intermission: null,
-      memePhoto: []
+      memePhoto: [],
+      memePhotoCopy: []
     };
     this.emitMessage = this.emitMessage.bind(this);
     this.MemePhoto = this.MemePhoto.bind(this)
@@ -135,7 +136,6 @@ class Game extends Component {
   showMeme() {
     console.log('should show meme');
     document.getElementById('display-meme').removeAttribute('class');
-
   }
   /**
    * hides both players memes from everyone
@@ -156,6 +156,9 @@ class Game extends Component {
    */
   hideMemePhoto() {
     document.getElementById('photo').className = 'photo-display';
+    this.setState({
+      memePhotoCopy: this.state.memePhoto
+    })
   }
 
   /**
@@ -170,8 +173,6 @@ class Game extends Component {
     });
     this.socket.on('intermission-over', () => {
       self.hideMeme();
-      self.MemePhoto();
-{/**      this.getMemePhoto(); **/}
       self.showMemePhoto();
       self.setState({
         intermission: false
@@ -198,7 +199,6 @@ class Game extends Component {
   MemePhoto() {
     const self = this;
     this.socket.on('photoUrl', (photoUrl) => {
-    console.log("URL*****", photoUrl);
       self.setState({
         memePhoto: photoUrl
       })
@@ -237,6 +237,7 @@ class Game extends Component {
         connectionType={this.state.connectionType}
         intermission={this.state.intermission}
         memePhoto={this.state.memePhoto}
+        memePhotoCopy={this.state.memePhotoCopy}
       />
     );
   }
